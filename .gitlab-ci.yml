@@ -1,0 +1,80 @@
+image: ci-reg.oelite.io/srv/oelite-dind:net6
+
+variables:
+  DOCKER_DRIVER: overlay2
+  GIT_SUBMODULE_STRATEGY: recursive
+  # See https://github.com/docker-library/docker/pull/166
+  DOCKER_TLS_CERTDIR: "/certs"
+  NODE_OPTIONS: --max_old_space_size=2048
+
+services:
+  - docker:20.10-dind
+
+stages:
+  - build
+  - deploy-docker
+
+before_script:
+  - docker info
+  - echo CURRENT BRANCH/TAG - $CI_COMMIT_REF_NAME
+  - mkdir -p ~/.kube
+  - kubectl version --client
+  - git submodule sync --recursive
+  - git submodule update --init --recursive
+  - rm -rf package-lock.json
+  - rm -rf package-lock.json
+  - npm install --force
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  except:
+    - main
+    - beta
+    - uat
+  script:
+    - npm run build
+
+deploy-dev:
+  stage: deploy-docker
+  dependencies:
+    - build
+  only:
+    - develop
+  script:
+    - docker build -f Dockerfile -t ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID .
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:dev
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - docker rmi ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - kubectl rollout restart statefulset medii-web-dev
+
+
+deploy-uat:
+  stage: deploy-docker
+  dependencies:
+    - build
+  only:
+    - uat
+  script:
+    - docker build -f Dockerfile -t ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID .
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:uat
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - docker rmi ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - kubectl rollout restart statefulset medii-web-testing
+
+
+deploy-production:
+  stage: deploy-docker
+  dependencies:
+    - build
+  only:
+    - main
+  script:
+    - docker build -f Dockerfile -t ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID .
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:uat
+    - docker push ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - docker rmi ci-reg.oelite.io/site-templates/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    - kubectl rollout restart statefulset medii-web

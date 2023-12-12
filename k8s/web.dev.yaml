@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: medii-web-dev
+  namespace: default
+  annotations:
+    configuration.konghq.com: https-only
+spec:
+  selector:
+    app: medii-web-dev
+  ports:
+    - name: ama
+      port: 80
+      targetPort: 50080
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: medii-web-dev
+  namespace: default
+spec:
+  replicas: 1
+  serviceName: medii-web-dev
+  selector:
+    matchLabels:
+      app: medii-web-dev
+  template:
+    metadata:
+      labels:
+        app: medii-web-dev
+    spec:
+      containers:
+        - name: medii-web-dev
+          image: ci-reg.oelite.io/clients/medii-web:dev
+          imagePullPolicy: Always
+          ports:
+            - name: http-port
+              containerPort: 3000
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            periodSeconds: 3
+            failureThreshold: 10
+            initialDelaySeconds: 30
+      imagePullSecrets:
+        - name: ci-reg.oelite.io-oe-ci
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: "app"
+                      operator: In
+                      values:
+                        - medii-web-dev
+                topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medii-web-dev
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: kong
+    konghq.com/preserve-host: "true"
+    konghq.com/override: https-only
+spec:
+  tls:
+    - secretName: medii.clients.webcider.dev-tls
+      hosts:
+        - medii.clients.webcider.dev
+  rules:
+    - host: medii.clients.webcider.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: medii-web-dev
+                port:
+                  number: 3000

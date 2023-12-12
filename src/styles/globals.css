@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+.slick-slide.slick-current .custom-card-data {
+    background: linear-gradient(180deg, #419886 0%, #004842 100%);
+    transition: background 1.5s ease;
+}
+
+.slick-slide.slick-current .custom-title {
+    color: #E4EFE1;
+}
+
+.slick-slide.slick-current .custom-description,
+.slick-slide.slick-current .custom-date {
+    color: #ffffff
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/NunitoSans.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/Quicksand.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'ABeeZee';
+    src: url('/fonts/ABeeZee.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'Radley';
+    src: url('/fonts/Radley.ttf') format('truetype')
+}
+@font-face {
+    font-family: 'Lato';
+    src: url('/fonts/Lato.ttf') format('truetype')
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins.ttf') format('truetype')
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/Roboto.ttf') format('truetype')
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.golden-shade {
+    text-align: center;
+    letter-spacing: -2px;
+    background: linear-gradient(150deg, #EAE2B6 0%, #FDF9E4 51.56%, #BDB384 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+
+}
+
+.golden-shade-description {
+    background: linear-gradient(150deg, #EAE2B6 0%, #FDF9E4 51.56%, #BDB384 100%);
+
+    /* background: linear-gradient(150deg, #EAE2B6 0%, #FDF9E4 51.56%, #BDB384 100%); */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+    text-align: center;
+    /* 260% */
+    letter-spacing: -2px;
+
+}
+
+
+.card-1-golden-shade {
+    background: linear-gradient(98.94deg, #EAE2B6 12.52%, #FFFFFF 45.65%, #EEE5BB 76.78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+.card-2-golden-shade {
+    background: linear-gradient(98.94deg, #988F5B 12.52%, #878160 45.65%, #625D47 76.78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+.card-3-golden-shade {
+    background: linear-gradient(98.94deg, #DBD3A6 12.52%, #EEE9CC 45.65%, #C7BD90 76.78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+.card-4-golden-shade {
+    background: linear-gradient(98.94deg, #DBD3A6 12.52%, #EEE9CC 45.65%, #C7BD90 76.78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    backdrop-filter: blur(3px);
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+@media screen and (min-width: 411px) {
+    .slick-initialized .slick-slide {
+        padding: 0px 10px;
+    }
+}

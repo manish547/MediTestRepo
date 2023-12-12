@@ -68,7 +68,10 @@ function Blog() {
   useEffect(() => {
     ; (async () => {
       const contentData = await contentApi({ selectedFilter: 131, pageIndex: 0, pageSize: 20 })
-      setLetestNews(contentData.data)
+
+      if (contentData?.data?.length > 0) {
+        setLetestNews(contentData.data)
+      }
     })()
   }, [])
   useEffect(() => {
@@ -139,7 +142,7 @@ function Blog() {
             />
           </div>
           {/* small blog 1 */}
-          {letestNews.length > 0 && letestNews.slice(0, 2).map((blogItem, index) => {
+          {letestNews?.length > 0 && letestNews?.slice(0, 2).map((blogItem, index) => {
             const { name, featureImageFileItemIsPublic, createdOnUtc, bodyContent, id } = blogItem;
             const newData = convertDate(createdOnUtc)
             const discription = extractDescription(bodyContent)

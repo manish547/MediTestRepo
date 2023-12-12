@@ -17,8 +17,11 @@ const AddOnEnrolment = ({ siteData }: { siteData: any }) => {
       const handleoptionalServicesData = await Promise.all(OptionalValue.map(async (item: any) => {
         return await pageContentData({ contentID: item.value })
       })
-      )
-      setOptionalServices(handleoptionalServicesData);
+      );
+
+      if (handleoptionalServicesData?.length > 0) {
+        setOptionalServices(handleoptionalServicesData);
+      }
     })()
   }, [])
 
@@ -37,8 +40,8 @@ const AddOnEnrolment = ({ siteData }: { siteData: any }) => {
     const OptionalValue = siteData.optionalServicesSiteContentMapping.find(
       (item: any) => item.value === index
     );
-    
-    const newServiceIds = [...ServiceIds]; 
+
+    const newServiceIds = [...ServiceIds];
 
     if (newServiceIds.includes(OptionalValue?.key)) {
       // Element exists, so remove it

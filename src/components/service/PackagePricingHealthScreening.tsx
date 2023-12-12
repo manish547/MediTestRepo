@@ -20,7 +20,9 @@ const PackagePricingHealthScreening = ({ siteData }: { siteData: any }) => {
         ; (async () => {
             const contentID = siteData?.topHeaderSiteContentId;
             const handleHeroSectionData = await pageContentData({ contentID: contentID });
-            setHeaderSiteData(handleHeroSectionData);
+            if (handleHeroSectionData) {
+                setHeaderSiteData(handleHeroSectionData);
+            }
         })()
     }, [])
 
@@ -32,18 +34,20 @@ const PackagePricingHealthScreening = ({ siteData }: { siteData: any }) => {
             })
             )
 
-            const updatedHandlePackageData = handlePackageData.map((dataItem) => {
-                const matchpackageId = PackageValue.find((packageItem: any) => packageItem.value === dataItem.id);
-
-                if (matchpackageId) {
-                    return {
-                        ...dataItem,
-                        key: matchpackageId.key
-                    };
-                }
-                return dataItem;
-            })
-            setPackageData(updatedHandlePackageData);
+            if (handlePackageData?.length > 0) {
+                const updatedHandlePackageData = handlePackageData.map((dataItem) => {
+                    const matchpackageId = PackageValue.find((packageItem: any) => packageItem.value === dataItem.id);
+    
+                    if (matchpackageId) {
+                        return {
+                            ...dataItem,
+                            key: matchpackageId.key
+                        };
+                    }
+                    return dataItem;
+                })
+                setPackageData(updatedHandlePackageData);
+            }
         })()
     }, [])
 

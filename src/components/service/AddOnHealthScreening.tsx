@@ -20,7 +20,10 @@ const AddOnHealthScreening = ({ siteData }: { siteData: any }) => {
                     return await pageContentData({ contentID: item.value })
                 })
                 )
-                setOptionalServices(handleoptionalServicesData);
+                
+                if (handleoptionalServicesData?.length > 0) {
+                    setOptionalServices(handleoptionalServicesData);
+                }
             }
         })()
     }, [])

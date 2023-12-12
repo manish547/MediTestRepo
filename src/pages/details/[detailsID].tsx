@@ -106,7 +106,7 @@ const detailsID = ({ response, postTabResponse }: Props) => {
     return (
         <>
             <div className='w-full py-10 flex items-center justify-between gap-5 px-10'>
-                <Link href={`/details/${currentID - 1}`} className="flex gap-3 shrink-0 justify-center items-center border-none py-3 px-4 md:px-8 rounded-full text-[16px] font-bold text-white bg-gradient-to-b from-[#004A42] to-[#419886] capitalize shadow-btn-shadow">
+                <Link href={`/resources`} className="flex gap-3 shrink-0 justify-center items-center border-none py-3 px-4 md:px-8 rounded-full text-[16px] font-bold text-white bg-gradient-to-b from-[#004A42] to-[#419886] capitalize shadow-btn-shadow">
                     <IoArrowBack className='w-5 h-5' />
                     GO back
                 </Link>
@@ -121,7 +121,7 @@ const detailsID = ({ response, postTabResponse }: Props) => {
                     <div className='flex flex-col items-start justify-center gap-7 border-b border-[#f3f3f3] pb-5 '>
                         <Image
                             src={`/images/resource-card/${selectedPost?.image ?? ""}.png`}
-                            className=" w-[900px] h-[640px] object-cover cursor-pointer"
+                            className=" w-[600px] rounded-md object-cover cursor-pointer"
                             height={640}
                             width={950}
                             alt={selectedPost?.image}

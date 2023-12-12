@@ -14,7 +14,9 @@ const MalesHealth = ({ siteData }: { siteData: any }) => {
     ; (async () => {
       const contentID = siteData.navHeaderSiteContentId
       const handleHeroSectionData = await pageContentData({ contentID: contentID })
-      setHeroSectionData(handleHeroSectionData)
+      if (handleHeroSectionData) {
+        setHeroSectionData(handleHeroSectionData)
+      }
     })()
   }, [])
   return (

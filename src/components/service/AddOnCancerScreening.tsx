@@ -18,7 +18,11 @@ const AddOnCancerScreening = ({ siteData }: { siteData: any }) => {
         return await pageContentData({ contentID: item.value })
       })
       )
-      setOptionalServices(handleoptionalServicesData);
+      console.log(handleoptionalServicesData);
+      
+      if (handleoptionalServicesData?.length > 0) {
+        setOptionalServices(handleoptionalServicesData);
+      }
     })()
   }, [])
 

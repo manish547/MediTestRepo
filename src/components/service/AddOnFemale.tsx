@@ -18,13 +18,15 @@ const AddOnFemale = ({ siteData }: { siteData: any }) => {
         return await pageContentData({ contentID: item.value })
       })
       )
-      const handleoptionalServicesData = handleoptional.map((item) => {
-        return {
-          ...item,
-          status: false,
-        }
-      })
-      setOptionalServices(handleoptionalServicesData);
+      if (handleoptional?.length > 0) {
+        const handleoptionalServicesData = handleoptional.map((item) => {
+          return {
+            ...item,
+            status: false,
+          }
+        })
+        setOptionalServices(handleoptionalServicesData);
+      }
     })()
   }, [])
 

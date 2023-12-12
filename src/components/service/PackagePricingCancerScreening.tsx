@@ -17,7 +17,9 @@ const PackagePricingCancerScreening = ({ siteData }: { siteData: any }) => {
         ; (async () => {
             const contentID = siteData.topHeaderSiteContentId;
             const handleHeroSectionData = await pageContentData({ contentID: contentID });
-            setHeaderSiteData(handleHeroSectionData);
+            if (handleHeroSectionData) {
+                setHeaderSiteData(handleHeroSectionData);
+            }
         })()
     }, [])
 
@@ -29,19 +31,21 @@ const PackagePricingCancerScreening = ({ siteData }: { siteData: any }) => {
             })
             )
 
-            const updatedhandlePackageData = handlePackageData.map((dataitem) => {
-                const matchpackageId = PackageValue.find((packageItem: any) => packageItem.value === dataitem.id);
+            if (handlePackageData?.length > 0) {   
+                const updatedhandlePackageData = handlePackageData.map((dataitem) => {
+                    const matchpackageId = PackageValue.find((packageItem: any) => packageItem.value === dataitem.id);
 
-                if (matchpackageId) {
-                    return {
-                        ...dataitem,
-                        key: matchpackageId.key
-                    };
-                }
-                return dataitem;
-            })
+                    if (matchpackageId) {
+                        return {
+                            ...dataitem,
+                            key: matchpackageId.key
+                        };
+                    }
+                    return dataitem;
+                })
 
-            setPackageData(updatedhandlePackageData);
+                setPackageData(updatedhandlePackageData);
+            }
         })()
     }, [])
 
